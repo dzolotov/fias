@@ -47,3 +47,13 @@ CREATE INDEX shortname_aolevel_idx ON addrobj USING btree (shortname, aolevel);
 -- trigram indexes to speed up text searches
 CREATE INDEX formalname_trgm_idx on addrobj USING gin (formalname gin_trgm_ops);
 CREATE INDEX offname_trgm_idx on addrobj USING gin (offname gin_trgm_ops);
+
+CREATE INDEX house_buildnum_idx ON house USING btree (buildnum);
+CREATE INDEX house_housenum_idx ON house USING btree (housenum);
+CREATE INDEX house_houseguid_idx ON house USING btree (houseguid);
+CREATE INDEX house_houseid_idx ON house USING btree (houseid);
+
+CREATE INDEX stead_guid_idx ON stead USING btree (steadguid);
+CREATE INDEX stead_parent_idx ON stead USING btree (parentguid);
+CREATE INDEX stead_id_idx ON stead USING btree (steadid)
+

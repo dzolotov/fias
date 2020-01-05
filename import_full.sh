@@ -108,31 +108,6 @@ do
 
 done
 
-echo '++++++++++++++++++ CHECKING ROOM FILES'
-if [ -f ./_data/ROOM01.DBF ]; then
-   mv ./_data/ROOM01.DBF ./_data/ROOM.DBF
-   echo '++++++++++++++++++ ROOM INITIAL FILE MOVED'
-fi
-pgdbf ./_data/ROOM.DBF | iconv -f cp866 -t utf-8 | psql  $DB
-echo '++++++++++++++++++ INITIAL ROOM TABLE CREATED'
-
-for FULLPATH in `find ./_data/ROOM* -type f`
-do
-    FILE="${FULLPATH##*/}"
-    TABLE="${FILE%.*}"
-
-    if [ $TABLE = 'ROOM' ]; then
-      echo 'SKIPPING ROOM'
-    else
-      pgdbf $FULLPATH | iconv -f cp866 -t utf-8 | psql  $DB
-      echo "++++++++++++++++++ TABLE $TABLE CREATED"
-
-      echo "++++++++++++++++++ INSERT $TABLE DATA INTO ROOM"
-      psql -d $DB -c "INSERT INTO ROOM SELECT * FROM $TABLE; DROP TABLE $TABLE;"
-    fi
-
-done
-
 echo '++++++++++++++++++ CHECKING STEAD FILES'
 if [ -f ./_data/STEAD01.DBF ]; then
    mv ./_data/STEAD01.DBF ./_data/STEAD.DBF
